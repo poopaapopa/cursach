@@ -18,7 +18,6 @@ button[type="submit"]:nth-of-type(2) {
     transform: translateX(-50%);
     padding: 10px;
     border-radius: 10px;
-    font-weight: 700;
     z-index: 1000;
     white-space: nowrap;
     background-color: white;
@@ -35,4 +34,30 @@ button[type="submit"]:nth-of-type(2) {
 	border-bottom-color: white;
 	border-width: 6px 9px;
 	margin-left: 0;
+}
+
+.calendar-button {
+    color: cornflowerblue;
+}
+
+.calendar-button:hover, .weekend {
+    color: indianred !important;
+}
+
+.empty-cell {
+  visibility: hidden;
+}
+
+.table td, .table th {
+  border: none;
+}
+
+.table {
+  border-collapse: separate;
+}
+
+.today {
+  background-color: #0d6efd !important;
+  color: white !important;
+  border-radius: 8px;
 }
