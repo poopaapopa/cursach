@@ -11,18 +11,30 @@ function MakeCalendar(num = 0) {
         'Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь',
         'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'
     ]
-    let [inputDay, inputMonth, inputYear] = dateInput.value.split('.', 3);
-    if (num)
-        monthNow = Number(inputMonth);
-    inputYear = Number(inputYear.substring(0, 4));
-    inputMonth = Number(inputMonth);
-    inputDay = Number(inputDay);
+    let curDate;
+    let inputDay, inputMonth, inputYear
+    try {
+        [inputDay, inputMonth, inputYear] = dateInput.value.split('.', 3);
+        if (num)
+            monthNow = Number(inputMonth);
+        inputYear = Number(inputYear.substring(0, 4));
+        inputMonth = Number(inputMonth);
+        inputDay = Number(inputDay);
 
-    const curDate = new Date(inputYear, monthNow - 1, inputDay);
+        curDate = new Date(inputYear, monthNow - 1, inputDay);
+    }
+    catch {
+        curDate = new Date();
+        inputYear = curDate.getFullYear();
+        inputMonth = curDate.getMonth() + 1;
+        monthNow = inputMonth;
+        inputDay = curDate.getDay();
+    }
     const year = curDate.getFullYear();
-    const month = monthNames[curDate.getMonth()];
+    let month = curDate.getMonth() + 1;
+    const monthName = monthNames[month - 1];
 
-    monthYear.textContent = `${month} ${year}`;
+    monthYear.textContent = `${monthName} ${year}`;
 
     daysContainer.innerHTML = "";
     const firstDay = new Date(inputYear, monthNow - 1, 1).getDay();
@@ -36,23 +48,39 @@ function MakeCalendar(num = 0) {
         row.appendChild(emptyCell);
     }
 
-    for (let i = 1; i <= daysInMonth; i++) {
+    for (let day = 1; day <= daysInMonth; day++) {
         const dateCell = document.createElement("td");
-        dateCell.textContent = i;
+        const dateButton = document.createElement("a");
+        dateButton.textContent = day;
 
-        if ((firstDay + i - 1) % 7 === 6 || (firstDay + i - 1) % 7 === 0)
-          dateCell.classList.add("weekend");
-        row.appendChild(dateCell);
-
-        console.log(curDate.getMonth(), monthNow);
         if (
-          i === inputDay &&
-          curDate.getMonth() === curDate.getMonth() &&
+          day === inputDay &&
+          month === inputMonth &&
           year === inputYear
         )
-          dateCell.classList.add("today");
+            dateCell.classList.add("today");
+        else if ((firstDay + day - 1) % 7 === 6 || (firstDay + day - 1) % 7 === 0) {
+            dateButton.classList.add("weekend");
+            dateButton.classList.add("day");
+        }
+        else dateButton.classList.add("day");
 
-        if ((firstDay + i - 1) % 7 === 0 || i === daysInMonth) {
+        dateCell.appendChild(dateButton);
+        dateCell.addEventListener("mouseover", () => {
+            dateCell.classList.add("day-hover");
+        });
+        dateCell.addEventListener("mouseout", () => {
+            dateCell.classList.remove("day-hover");
+        });
+        dateCell.addEventListener("click", () => {
+            day = String(day).padStart(2, '0');
+            month = String(month).padStart(2, '0');
+            dateInput.value = `${day}.${month}.${year}`;
+            updateDayOfWeek();
+        });
+        row.appendChild(dateCell);
+
+        if ((firstDay + day - 1) % 7 === 0 || day === daysInMonth) {
           daysContainer.appendChild(row);
           row = document.createElement("tr");
         }
@@ -63,11 +91,9 @@ dateInput.addEventListener('click', () => {
     tooltip.style.display = 'block';
     MakeCalendar(1);
 });
-
 document.addEventListener('click', (event) => {
-    if (!dateInput.contains(event.target) && !tooltip.contains(event.target)) {
+    if (!dateInput.contains(event.target) && !tooltip.contains(event.target))
         tooltip.style.display = 'none';
-    }
 });
 
 prevMonth.addEventListener("click", () => {
@@ -79,22 +105,27 @@ nextMonth.addEventListener("click", () => {
     MakeCalendar();
 });
 
-function updateDayOfWeek(daysToAdd) {
+function updateDayOfWeek(daysToAdd = 0) {
     const days = ['вс', 'пн', 'вт', 'ср', 'чт', 'пт', 'сб'];
     let [day, month, year] = dateInput.value.split('.', 3);
     year = Number(year.substring(0, 4));
 
     if (day.length == 2 && month.length == 2 && year >= 1000) {
-        let date = new Date(year, month - 1, Number(day));
-        if (daysToAdd) {
-            date = new Date(date.getTime() + 1000 * 60 * 60 * 24 * daysToAdd);
-            day = String(date.getDate()).padStart(2, '0');
-            month = String(date.getMonth() + 1).padStart(2, '0');
-            year = date.getFullYear();
-        }
-        const dayOfWeek = days[date.getDay()];
+        let check_day = new Date(year, month - 1, 0).getDate();
+        if (month > 0 && month < 13 && day > 0 && day <= check_day) {
+            let date = new Date(year, month - 1, Number(day));
+            if (daysToAdd) {
+                date = new Date(date.getTime() + 1000 * 60 * 60 * 24 * daysToAdd);
+                day = String(date.getDate()).padStart(2, '0');
+                month = String(date.getMonth() + 1).padStart(2, '0');
+                year = date.getFullYear();
+            }
+            const dayOfWeek = days[date.getDay()];
 
-        dateInput.value = `${day}.${month}.${year}, ${dayOfWeek}`;
+            dateInput.value = `${day}.${month}.${year}, ${dayOfWeek}`;
+            MakeCalendar(1);
+        }
+        else dateInput.value = "";
     }
 }
 
@@ -112,15 +143,17 @@ function setTodayDate() {
 dateInput.value = setTodayDate();
 dateInput.addEventListener('input', () => {
     updateDayOfWeek();
-    monthToAdd = 0;
-    MakeCalendar(monthToAdd);
 });
 document.querySelector('#prevDay').addEventListener('click', (event) => {
     event.preventDefault();
+    if (dateInput.value === "")
+        setTodayDate();
     updateDayOfWeek(-1);
 });
 document.querySelector('#nextDay').addEventListener('click', (event) => {
     event.preventDefault();
+    if (dateInput.value === "")
+        setTodayDate();
     updateDayOfWeek(1);
 });
 
