@@ -8,20 +8,20 @@ from auth.acess import login_required
 sql_provider = SQLProvider(os.path.join(os.path.dirname(__file__), 'sql'))
 park_blueprint = Blueprint('park_bp', __name__, template_folder='templates')
 
-@park_blueprint.route("/<login>", methods = ['GET', 'POST'])
+@park_blueprint.route("/", methods = ['GET', 'POST'])
 @login_required
-def trolleybuspark_get(login):
+def trolleybuspark_get():
     if session['user_group'] == 'pers_manager':
         if request.method == "GET":
             drivers = select_from_db(db_config, sql_provider.get('all_drivers.sql'))
-            return render_template('personal.html', drivers=drivers, login=login)
+            return render_template('personal.html', drivers=drivers, login=session['login'])
         else:
             input_data = request.form
             drivers = select_from_db(db_config, sql_provider.get('drivers.sql', FIO=input_data['FIO']))
-            return render_template('personal.html', drivers=drivers, login=login)
+            return render_template('personal.html', drivers=drivers, login=session['login'])
     else:
         if request.method == "GET":
-            return render_template('user.html', login=login)
+            return render_template('user.html', login=session['login'], user_group=session['user_group'])
         else:
             input_data = request.form['date']
             [day, month, year] = input_data.split('.', 3)

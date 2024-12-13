@@ -1,8 +1,8 @@
-button[type="submit"]:first-child {
+.day_btn:first-child {
     border-radius: 10px 0 0 10px;
 }
 
-button[type="submit"]:nth-of-type(2) {
+.day_btn:nth-of-type(2) {
     border-radius: 0 10px 10px 0;
 }
 

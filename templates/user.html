@@ -12,9 +12,9 @@
       <div class="container-fluid">
         <a class="navbar-brand" href="/trolleybuspark/{{ login }}">ТроллейбусныйПарк</a>
         <form id="routesForm" class="d-flex" role="search">
-            <button class="btn btn-outline-primary" type="submit" id="prevDay">ᐊ</button>
+            <button class="btn btn-outline-primary day_btn" id="prevDay">ᐊ</button>
             <input class="form-control rounded-0" type="search" id="dateInput" name="date" placeholder="Дата" autocomplete="off" style="width: 180px; height: 40px; font-size:20px">
-            <button class="btn btn-outline-primary me-3" type="submit" id="nextDay">ᐅ</button>
+            <button class="btn btn-outline-primary me-3 day_btn" id="nextDay">ᐅ</button>
             <button class="btn btn-outline-primary" type="submit" id="inputButton">Показать расписание</button>
         </form>
         <div class="d-flex justify-content-between gap-3">
@@ -59,6 +59,47 @@
         </div>
     </div>
     <table class="table caption-top" id="routesTable"></table>
+    {% if user_group == "routes_manager" %}
+    <div class="modal fade" id="addRouteModal" tabindex="-1" aria-labelledby="addRouteModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="addRouteModalLabel">Добавить маршрут</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+          </div>
+          <div class="modal-body">
+            <form id="addRouteForm">
+              <div class="mb-3">
+                <label for="route_id" class="form-label">Номер маршрута</label>
+                <input type="text" class="form-control" id="route_id" name="route_id" placeholder="Номер маршрута" required>
+              </div>
+              <div class="mb-3">
+                <label for="time_out" class="form-label">Время отправления</label>
+                <input type="time" class="form-control" id="time_out" name="time_out" required>
+              </div>
+              <div class="mb-3">
+                <label for="time_in" class="form-label">Время прибытия</label>
+                <input type="time" class="form-control" id="time_in" name="time_in" required>
+              </div>
+              <div class="mb-3">
+                <label for="driver_id" class="form-label">Персональный номер водителя</label>
+                <input type="text" class="form-control" id="driver_id" name="driver_id" placeholder="Персональный номер водителя" required>
+              </div>
+              <div class="mb-3">
+                <label for="trolleybus_id" class="form-label">Серийный номер троллейбуса</label>
+                <input type="text" class="form-control" id="trolleybus_id" name="trolleybus_id" placeholder="Серийный номер троллейбуса" required>
+              </div>
+              <button type="submit" class="btn btn-success" id="addRouteButton">Сохранить</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endif %}
+    <script>
+        const user_group = "{{ user_group }}";
+        const login = "{{ login }}";
+    </script>
     <script src="/static/js/main.js" type="module"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
