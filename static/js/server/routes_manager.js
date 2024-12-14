@@ -1,4 +1,4 @@
-export function updateManagerRoutesTable(routes) {
+export function updateManagerRoutesTable(routes, year, month, day) {
     const routesTable = document.getElementById("routesTable");
     if (routes.length) {
         routesTable.innerHTML = "";
@@ -37,7 +37,11 @@ export function updateManagerRoutesTable(routes) {
     const tableFooter = document.createElement("div");
     tableFooter.classList.add("d-flex", "align-items-center", "mt-2");
     tableFooter.innerHTML = `
-        <button id="addRouteButton" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#addRouteModal">Добавить маршрут</button>
+        <button id="addRouteButton" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#addRouteModal"
+            data-route-year="${year}"
+            data-route-month="${month}"
+            data-route-day="${day}">
+        Добавить маршрут</button>
     `;
     routesTable.appendChild(tableFooter);
 }

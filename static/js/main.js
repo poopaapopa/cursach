@@ -4,7 +4,6 @@ import { submitRoutesForm, setupAddRouteForm } from "./server/server.js";
 const dateInput = document.getElementById('dateInput');
 const tooltip = document.getElementById('tooltip');
 let monthNow;
-let date;
 
 dateInput.addEventListener('click', () => {
     tooltip.style.display = 'block';
@@ -54,12 +53,9 @@ dateInput.addEventListener('keypress', function(event) {
 
 document.querySelector('#inputButton').addEventListener('click', () => {
     submitRoutesForm(user_group);
-    let [day, month, year] = dateInput.value.split('.', 3);
-    year = year.substring(0, 4);
-    date = day + '.' + month + '.' + year;
 });
 
 if (user_group === "routes_manager")
     document.querySelector('#addRouteButton').addEventListener('click', () => {
-        setupAddRouteForm(date);
+        setupAddRouteForm();
     });
