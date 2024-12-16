@@ -1,5 +1,5 @@
 import { updateUserRoutesTable } from "./user_search.js";
-import { updateManagerRoutesTable } from "./routes_manager.js";
+import { updateManagerRoutesTable, alertCreation } from "./routes_manager.js";
 
 export async function submitRoutesForm(user_group) {
     const routesForm = document.getElementById("routesForm");
@@ -16,8 +16,10 @@ export async function submitRoutesForm(user_group) {
             const data = await response.json();
             if (user_group === "user")
                 updateUserRoutesTable(data.routes);
-            else
+            else {
                 updateManagerRoutesTable(data.routes, data.year, data.month, data.day);
+                addDeleteButtons();
+            }
         }
     };
 }
@@ -34,7 +36,7 @@ export async function setupAddRouteForm() {
         formData.append("month", month);
         const day = document.querySelector("#addRouteButton").getAttribute("data-route-day");
         formData.append("day", day);
-        const response = await fetch(`/add_route/`, {
+        const response = await fetch(`/route_manager/`, {
             method: "POST",
             body: formData
         });
@@ -43,19 +45,39 @@ export async function setupAddRouteForm() {
             const data = await response.json();
             if (data.routes) {
                 updateManagerRoutesTable(data.routes);
+                addDeleteButtons();
                 addRouteForm.reset();
                 document.getElementById("closeModal").click();
             }
-            else {
-                const alertDiv = document.createElement("div");
-                alertDiv.className = "alert alert-danger";
-                alertDiv.textContent = "На это время водитель уже занят!";
-
-                const modalBody = document.querySelector("#addRouteModal .modal-body");
-                modalBody.insertBefore(alertDiv, modalBody.firstChild);
-
-                setTimeout(() => alertDiv.remove(), 3000);
-            }
+            else
+                alertCreation()
         }
     };
+}
+
+function addDeleteButtons() {
+    const deleteButtons = document.querySelectorAll(".delete-btn");
+    deleteButtons.forEach(button => {
+        button.addEventListener("click", async (event) => {
+            const buttonElement = event.currentTarget;
+            const scheduleId = buttonElement.getAttribute("data-id");
+
+            if (confirm("Вы уверены, что хотите удалить этот маршрут?")) {
+                const response = await fetch(`/route_manager/`, {
+                    method: "DELETE",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ scheduleId })
+                });
+
+                if (response.status === 404) {
+                    alert("Маршрут уже удалён или не существует.");
+                } else if (response.ok) {
+                    buttonElement.closest("tr").remove();
+                    alert("Маршрут успешно удалён.");
+                }
+            }
+        });
+    });
 }

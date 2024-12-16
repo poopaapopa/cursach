@@ -26,5 +26,10 @@ def trolleybuspark_get():
             input_data = request.form['date']
             [day, month, year] = input_data.split('.', 3)
             year = year[0:4]
-            routes = select_from_db(db_config, sql_provider.get('routes.sql', year=year, month=month, day=day))
+            if (session['user_group'] == 'routes_manager'):
+                routes = select_from_db(db_config, sql_provider.get('manager_routes.sql',
+                                                                    year=year, month=month, day=day))
+            else:
+                routes = select_from_db(db_config, sql_provider.get('user_routes.sql',
+                                                                    year=year, month=month, day=day))
             return jsonify({'routes': routes, 'year': year, 'month': month, 'day': day})

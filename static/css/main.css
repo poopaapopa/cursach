@@ -67,7 +67,7 @@
   border-collapse: separate;
 }
 
-.btn:hover, .today {
+.btn-outline-primary:hover, .today {
     border-color: cornflowerblue !important;
     background-color: cornflowerblue !important;
 }
@@ -87,4 +87,54 @@
 .today {
   color: white !important;
   border-radius: 8px;
+}
+
+.btn-close {
+    border: none !important;
+    background-color: transparent !important;
+    outline: none !important;
+    cursor: pointer !important;
+}
+
+.btn-close:focus {
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+.icon-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    margin: 0 5px;
+    color: #adb5bd;
+    font-size: 1.5rem;
+}
+
+.icon-button:focus {
+    outline: none;
+}
+
+.icon-button:hover {
+    color: #6c757d;
+}
+
+.add-route-btn {
+    background: none !important;
+    border: 2px dashed #6c757d !important;
+    color: #6c757d !important;
+    font-size: 1.5rem !important;
+    font-weight: bold !important;
+    padding: 10px 0 !important;
+    text-align: center !important;
+    cursor: pointer !important;
+    transition: background-color 0.3s ease, color 0.3s ease !important;
+    width: 90%;
+    margin-left: 5%;
+}
+
+.add-route-btn:hover {
+    background-color: #f8f9fa !important;
+    color: #343a40 !important;
+    border-color: #343a40 !important;
 }

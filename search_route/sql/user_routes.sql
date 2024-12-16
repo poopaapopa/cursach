@@ -1,5 +1,4 @@
-SELECT DATE_FORMAT(time_out,'%H:%i') time_out, DATE_FORMAT(time_in,'%H:%i') time_in,
-       route_id, route_name, driver_id, trolleybus_id, sh_id
+SELECT DATE_FORMAT(time_out,'%H:%i') time_out, DATE_FORMAT(time_in,'%H:%i') time_in, route_id, route_name
 FROM trolleybuspark.schedule
 JOIN trolleybuspark.routes ON route_id = route
 WHERE 1 = 1
