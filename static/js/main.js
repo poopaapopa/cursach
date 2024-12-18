@@ -60,4 +60,6 @@ if (user_group === "routes_manager")
         setupSaveRouteForm();
     });
 
-document.getElementById('inputButton').click();
+document.getElementById("closeModal").addEventListener('click', () => {
+    document.querySelector("#alert").remove();
+});

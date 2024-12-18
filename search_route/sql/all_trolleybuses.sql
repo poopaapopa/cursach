@@ -1,0 +1,1 @@
+SELECT trolleybus_id FROM TrolleybusPark.Trolleybus;

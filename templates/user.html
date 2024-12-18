@@ -59,9 +59,46 @@
             </div>
         </div>
     </div>
-    <table class="table caption-top mt-2" id="routesTable" style="width: 90%; margin-left: 5%;"></table>
+    <table class="table caption-top mt-2" id="routesTable" style="width: 90%; margin-left: 5%;">
+        <thead>
+            <tr>
+                <th scope="col">Номер Маршрута</th>
+                <th scope="col">Отпр.</th>
+                <th scope="col">Приб.</th>
+                <th scope="col">Маршрут</th>
+                {% if user_group == "routes_manager" %}
+                <th scope="col">Номер водителя</th>
+                <th scope="col">Номер троллейбуса</th>
+                <th scope="col">Действия</th>
+                {% endif %}
+            </tr>
+        </thead>
+        <tbody>
+        {% for route in routes %}
+            <tr>
+                <td>{{ route.route_id }}</td>
+                <td>{{ route.time_out }}</td>
+                <td>{{ route.time_in }}</td>
+                <td>{{ route.route_name }}</td>
+                {% if user_group == "routes_manager" %}
+                <td>{{ route.driver_id }}</td>
+                <td>{{ route.trolleybus_id }}</td>
+                <td>
+                    <button class="icon-button edit-btn" data-id="{{ route.sh_id }}" title="Редактировать">
+                        <i class="bi bi-pen"></i>
+                    </button>
+                    <button class="icon-button delete-btn" data-id="{{ route.sh_id }}" title="Удалить">
+                        <i class="bi bi-trash"></i>
+                    </button>
+                </td>
+                {% endif %}
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
     {% if user_group == "routes_manager" %}
-    <button id="addRouteButton" class="btn add-route-btn" data-bs-toggle="modal" data-bs-target="#saveRouteModal" title="Добавить маршрут">
+    <button id="addRouteButton" class="btn add-route-btn" data-bs-toggle="modal" data-bs-target="#saveRouteModal"
+            title="Добавить маршрут" data-route-year="{{ year }}" data-route-month="{{ month }}" data-route-day="{{ day }}">
         +
     </button>
     <div class="modal fade" id="saveRouteModal" tabindex="-1" aria-labelledby="addRouteModalLabel" aria-hidden="true">
@@ -75,7 +112,12 @@
             <form id="saveRouteForm">
               <div class="mb-3">
                 <label for="route_id" class="form-label">Номер маршрута</label>
-                <input type="text" class="form-control" id="route_id" name="route_id" placeholder="Номер маршрута" required>
+                <select class="form-select" id="route_id" name="route_id" required>
+                  <option value="" disabled selected>Выберите номер маршрута</option>
+                  {% for route_id in routes_id %}
+                  <option value="{{ route_id['route'] }}">{{ route_id['route'] }}</option>
+                  {% endfor %}
+                </select>
               </div>
               <div class="mb-3">
                 <label for="time_out" class="form-label">Время отправления</label>
@@ -87,14 +129,24 @@
               </div>
               <div class="mb-3">
                 <label for="driver_id" class="form-label">Персональный номер водителя</label>
-                <input type="text" class="form-control" id="driver_id" name="driver_id" placeholder="Персональный номер водителя" required>
+                <select class="form-select" id="driver_id" name="driver_id" required>
+                  <option value="" disabled selected>Выберите водителя</option>
+                  {% for driver in drivers %}
+                  <option value="{{ driver['personnel_number'] }}">{{ driver['personnel_number'] }}</option>
+                  {% endfor %}
+                </select>
               </div>
               <div class="mb-3">
                 <label for="trolleybus_id" class="form-label">Серийный номер троллейбуса</label>
-                <input type="text" class="form-control" id="trolleybus_id" name="trolleybus_id" placeholder="Серийный номер троллейбуса" required>
+                <select class="form-select" id="trolleybus_id" name="trolleybus_id" required>
+                  <option value="" disabled selected>Выберите троллейбус</option>
+                  {% for trolleybus in trolleybuses %}
+                  <option value="{{ trolleybus['trolleybus_id'] }}">{{ trolleybus['trolleybus_id'] }}</option>
+                  {% endfor %}
+                </select>
               </div>
               <input type="hidden" class="form-control" id="sh_id" name="sh_id" value="">
-              <button type="submit" class="btn btn-success" id="saveRouteButton">Сохранить</button>
+              <button type="submit" class="btn btn-primary w-100 mt-2" id="saveRouteButton">Сохранить</button>
             </form>
           </div>
         </div>
@@ -104,6 +156,7 @@
     <script>
         const user_group = "{{ user_group }}";
         const login = "{{ login }}";
+        const today_routes = {{ routes }};
     </script>
     <script src="/static/js/main.js" type="module"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>

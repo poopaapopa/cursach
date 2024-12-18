@@ -67,9 +67,13 @@
   border-collapse: separate;
 }
 
-.btn-outline-primary:hover, .today {
+.btn-outline-primary:hover, .today, .btn-primary {
     border-color: cornflowerblue !important;
     background-color: cornflowerblue !important;
+}
+
+.btn-primary:hover {
+    background-color: #4683E0 !important;
 }
 
 .day {

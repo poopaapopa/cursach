@@ -31,6 +31,10 @@ export async function setupSaveRouteForm() {
         event.preventDefault();
 
         const formData = new FormData(saveRouteForm);
+        if (formData.get("time_out") > formData.get("time_in")) {
+            alertCreation("Время введено неверно!");
+            return;
+        }
 
         const year = document.querySelector("#addRouteButton").getAttribute("data-route-year");
         formData.append("year", year);
@@ -55,7 +59,7 @@ export async function setupSaveRouteForm() {
                 document.getElementById("closeModal").click();
             }
             else
-                alertCreation()
+                alertCreation("На это время водитель уже занят!");
         }
     };
 }

@@ -22,7 +22,6 @@ def trolleybuspark_get():
         time_out = input_data.get('time_out')
         time_in = input_data.get('time_in')
         sh_id = input_data.get('sh_id')
-        print(sh_id)
         time_out_full = datetime.strptime(f"{day}.{month}.{year} {time_out}", "%d.%m.%Y %H:%M").strftime("%Y-%m-%d %H:%M:%S")
         time_in_full = datetime.strptime(f"{day}.{month}.{year} {time_in}", "%d.%m.%Y %H:%M").strftime("%Y-%m-%d %H:%M:%S")
 

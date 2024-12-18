@@ -1,23 +1,8 @@
 export function updateManagerRoutesTable(routes, year, month, day) {
-    const routesTable = document.getElementById("routesTable");
-    routesTable.innerHTML = "";
-    if (routes.length) {
-        const tableHead = document.createElement("thead");
-        tableHead.innerHTML = `
-            <tr>
-              <th scope="col">Номер Маршрута</th>
-              <th scope="col">Отпр.</th>
-              <th scope="col">Приб.</th>
-              <th scope="col">Маршрут</th>
-              <th scope="col">Номер водителя</th>
-              <th scope="col">Номер троллейбуса</th>
-              <th scope="col">Действия</th>
-            </tr>
-        `;
-        routesTable.appendChild(tableHead);
+    const tableBody = document.querySelector("#routesTable tbody");
+    tableBody.innerHTML = "";
 
-        const tableBody = document.createElement("tbody");
-        tableBody.id = "routesTable";
+    if (routes.length) {
         routes.forEach(route => {
             const routeCard = document.createElement("tr");
             routeCard.innerHTML = `
@@ -38,7 +23,6 @@ export function updateManagerRoutesTable(routes, year, month, day) {
             `;
             tableBody.appendChild(routeCard);
         });
-        routesTable.appendChild(tableBody);
     }
     const addRouteButton = document.getElementById("addRouteButton");
     addRouteButton.setAttribute('data-route-year', year);
@@ -46,14 +30,14 @@ export function updateManagerRoutesTable(routes, year, month, day) {
     addRouteButton.setAttribute('data-route-day', day);
 }
 
-export function alertCreation() {
+export function alertCreation(alert) {
     const modalBody = document.querySelector("#saveRouteModal .modal-body");
     const existingAlert = modalBody.querySelector(".alert.alert-danger");
 
     if (!existingAlert) {
         const alertDiv = document.createElement("div");
         alertDiv.className = "alert alert-danger d-flex justify-content-between align-items-center";
-        alertDiv.textContent = "На это время водитель уже занят!";
+        alertDiv.textContent = alert;
 
         const closeButton = document.createElement("button");
         closeButton.className = "btn-close";
