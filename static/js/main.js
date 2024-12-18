@@ -1,5 +1,5 @@
 import { makeCalendar, updateDayOfWeek, setTodayDate } from './calendar.js';
-import { submitRoutesForm, setupAddRouteForm } from "./server/server.js";
+import { submitRoutesForm, setupSaveRouteForm } from "./server/server.js";
 
 const dateInput = document.getElementById('dateInput');
 const tooltip = document.getElementById('tooltip');
@@ -56,6 +56,8 @@ document.querySelector('#inputButton').addEventListener('click', () => {
 });
 
 if (user_group === "routes_manager")
-    document.querySelector('#addRouteButton').addEventListener('click', () => {
-        setupAddRouteForm();
+    document.querySelector('#saveRouteButton').addEventListener('click', () => {
+        setupSaveRouteForm();
     });
+
+document.getElementById('inputButton').click();

@@ -36,7 +36,6 @@ export function updateManagerRoutesTable(routes, year, month, day) {
                     </button>
                 </td>
             `;
-            console.log(route.sh_id);
             tableBody.appendChild(routeCard);
         });
         routesTable.appendChild(tableBody);
@@ -48,7 +47,7 @@ export function updateManagerRoutesTable(routes, year, month, day) {
 }
 
 export function alertCreation() {
-    const modalBody = document.querySelector("#addRouteModal .modal-body");
+    const modalBody = document.querySelector("#saveRouteModal .modal-body");
     const existingAlert = modalBody.querySelector(".alert.alert-danger");
 
     if (!existingAlert) {

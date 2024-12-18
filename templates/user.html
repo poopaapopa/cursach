@@ -61,18 +61,18 @@
     </div>
     <table class="table caption-top mt-2" id="routesTable" style="width: 90%; margin-left: 5%;"></table>
     {% if user_group == "routes_manager" %}
-    <button id="addRouteButton" class="btn add-route-btn" data-bs-toggle="modal" data-bs-target="#addRouteModal">
+    <button id="addRouteButton" class="btn add-route-btn" data-bs-toggle="modal" data-bs-target="#saveRouteModal" title="Добавить маршрут">
         +
     </button>
-    <div class="modal fade" id="addRouteModal" tabindex="-1" aria-labelledby="addRouteModalLabel" aria-hidden="true">
+    <div class="modal fade" id="saveRouteModal" tabindex="-1" aria-labelledby="addRouteModalLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="addRouteModalLabel">Добавить маршрут</h5>
+            <h5 class="modal-title" id="saveRouteModalLabel">Добавить маршрут</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть" id="closeModal"></button>
           </div>
           <div class="modal-body">
-            <form id="addRouteForm">
+            <form id="saveRouteForm">
               <div class="mb-3">
                 <label for="route_id" class="form-label">Номер маршрута</label>
                 <input type="text" class="form-control" id="route_id" name="route_id" placeholder="Номер маршрута" required>
@@ -93,7 +93,8 @@
                 <label for="trolleybus_id" class="form-label">Серийный номер троллейбуса</label>
                 <input type="text" class="form-control" id="trolleybus_id" name="trolleybus_id" placeholder="Серийный номер троллейбуса" required>
               </div>
-              <button type="submit" class="btn btn-success" id="addRouteButton">Сохранить</button>
+              <input type="hidden" class="form-control" id="sh_id" name="sh_id" value="">
+              <button type="submit" class="btn btn-success" id="saveRouteButton">Сохранить</button>
             </form>
           </div>
         </div>

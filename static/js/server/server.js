@@ -19,23 +19,26 @@ export async function submitRoutesForm(user_group) {
             else {
                 updateManagerRoutesTable(data.routes, data.year, data.month, data.day);
                 addDeleteButtons();
+                addRedactButtons(data.routes);
             }
         }
     };
 }
 
-export async function setupAddRouteForm() {
-    const addRouteForm = document.getElementById("addRouteForm");
-    addRouteForm.onsubmit = async function(event) {
+export async function setupSaveRouteForm() {
+    const saveRouteForm = document.getElementById("saveRouteForm");
+    saveRouteForm.onsubmit = async function(event) {
         event.preventDefault();
 
-        const formData = new FormData(addRouteForm);
+        const formData = new FormData(saveRouteForm);
+
         const year = document.querySelector("#addRouteButton").getAttribute("data-route-year");
         formData.append("year", year);
         const month = document.querySelector("#addRouteButton").getAttribute("data-route-month");
         formData.append("month", month);
         const day = document.querySelector("#addRouteButton").getAttribute("data-route-day");
         formData.append("day", day);
+
         const response = await fetch(`/route_manager/`, {
             method: "POST",
             body: formData
@@ -43,10 +46,12 @@ export async function setupAddRouteForm() {
 
         if (response.ok) {
             const data = await response.json();
-            if (data.routes) {
-                updateManagerRoutesTable(data.routes);
+            if (data.status === "ok") {
+                updateManagerRoutesTable(data.routes, year, month, day);
                 addDeleteButtons();
-                addRouteForm.reset();
+                addRedactButtons(data.routes);
+                saveRouteForm.reset();
+                document.getElementById("sh_id").value = "";
                 document.getElementById("closeModal").click();
             }
             else
@@ -78,6 +83,30 @@ function addDeleteButtons() {
                     alert("Маршрут успешно удалён.");
                 }
             }
+        });
+    });
+}
+
+function addRedactButtons(routes) {
+    const redactButtons = document.querySelectorAll(".edit-btn");
+    redactButtons.forEach(button => {
+        button.addEventListener("click", async (event) => {
+            const buttonElement = event.currentTarget;
+            const scheduleId = buttonElement.getAttribute("data-id");
+            const route = routes.find(route => route.sh_id == scheduleId);
+
+            console.log(route);
+            console.log(document.getElementById("sh_id"));
+            document.getElementById("saveRouteModalLabel").innerText = "Редактировать маршрут";
+            document.getElementById("route_id").value = route.route_id;
+            document.getElementById("time_out").value = route.time_out;
+            document.getElementById("time_in").value = route.time_in;
+            document.getElementById("driver_id").value = route.driver_id;
+            document.getElementById("trolleybus_id").value = route.trolleybus_id;
+            document.getElementById("sh_id").value = route.sh_id;
+
+            const modal = new bootstrap.Modal(document.getElementById("saveRouteModal"));
+            modal.show();
         });
     });
 }
