@@ -1,7 +1,9 @@
 from DataBase.connection import DBConnection
 
-def select_from_db(db_config, request):
+def select_from_db(db_config, request, report=""):
     with DBConnection(db_config) as cursor:
+        if report != "":
+            cursor.execute(report)
         cursor.execute(request)
         result = cursor.fetchall()
         output = []

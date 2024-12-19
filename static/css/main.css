@@ -142,3 +142,8 @@
     color: #343a40 !important;
     border-color: #343a40 !important;
 }
+
+.alert {
+    font-size: 16px !important;
+    color:#dd2b3a !important;
+}

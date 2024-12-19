@@ -1,0 +1,1 @@
+CALL TrolleybusPark.report('$year', '$month');
