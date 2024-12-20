@@ -1,0 +1,30 @@
+{
+  "pers_manager": {
+    "host": "localhost",
+    "port": 3306,
+    "user": "pers_manager",
+    "password": "secure_pm_password",
+    "db": "trolleybuspark"
+  },
+  "default": {
+    "host": "localhost",
+    "port": 3306,
+    "user": "default",
+    "password": "secure_default_password",
+    "db": "trolleybuspark"
+  },
+  "routes_manager": {
+    "host": "localhost",
+    "port": 3306,
+    "user": "routes_manager",
+    "password": "secure_rm_password",
+    "db": "trolleybuspark"
+  },
+  "user": {
+    "host": "localhost",
+    "port": 3306,
+    "user": "user",
+    "password": "secure_user_password",
+    "db": "trolleybuspark"
+  }
+}

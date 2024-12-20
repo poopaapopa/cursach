@@ -1,18 +1,14 @@
 from flask import Blueprint, render_template, request, session, redirect
 import os
+import json
 from sql_provider import SQLProvider
 from DataBase.select import select_from_db
 
 auth_blueprint = Blueprint('auth_bp', __name__, template_folder='templates')
 sql_provider = SQLProvider(os.path.join(os.path.dirname(__file__), 'sql'))
 
-db_config = {
-    'host': 'localhost',
-    'port': 3306,
-    'user': 'root',
-    'password': '1234',
-    'db': 'supermarket'
-}
+with open('DataBase/db_config.json') as f:
+    db_config = json.load(f)
 
 @auth_blueprint.route('/', methods=['GET', 'POST'])
 def start_auth_handler():

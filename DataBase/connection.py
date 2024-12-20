@@ -1,4 +1,5 @@
 import pymysql
+from flask import session
 from pymysql import OperationalError
 
 class DBConnection:
@@ -7,9 +8,14 @@ class DBConnection:
         self.connection = None
         self.cursor = None
 
+    def get_config_for_role(self):
+        user_group = session.get('user_group')
+        return self.db_config.get(user_group, self.db_config['default'])
+
     def __enter__(self):
         try:
-            self.connection = pymysql.connect(**self.db_config)
+            db_config = self.get_config_for_role()
+            self.connection = pymysql.connect(**db_config)
             self.cursor = self.connection.cursor()
             return self.cursor
         except (KeyError, OperationalError) as err:

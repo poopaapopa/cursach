@@ -1,7 +1,7 @@
 from flask import url_for, Flask, redirect, session
 from auth.routes import auth_blueprint
 from auth.acess import login_required
-from search_route.departures_page import park_blueprint
+from search.main_page import park_blueprint
 from manager.route_manager import route_manager_blueprint
 from manager.personal_manager import pers_manager
 
