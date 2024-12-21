@@ -1,5 +1,6 @@
 import { updateUserRoutesTable } from "./user_search.js";
-import { updateManagerRoutesTable, alertCreation } from "./routes_manager.js";
+import { updateManagerRoutesTable } from "./routes_manager.js";
+import {alertCreation} from "../alert_creation.js";
 
 export async function submitRoutesForm(user_group) {
     const routesForm = document.getElementById("routesForm");
@@ -32,7 +33,8 @@ export async function setupSaveRouteForm() {
 
         const formData = new FormData(saveRouteForm);
         if (formData.get("time_out") > formData.get("time_in")) {
-            alertCreation("Время введено неверно!");
+            const modalBody = document.querySelector("#saveRouteModal .modal-body");
+            alertCreation("Время введено неверно!", modalBody);
             return;
         }
 
@@ -58,8 +60,10 @@ export async function setupSaveRouteForm() {
                 document.getElementById("sh_id").value = "";
                 document.getElementById("closeModal").click();
             }
-            else
-                alertCreation("На это время водитель уже занят!");
+            else {
+                const modalBody = document.querySelector("#saveRouteModal .modal-body");
+                alertCreation("На это время водитель уже занят!", modalBody);
+            }
         }
     };
 }

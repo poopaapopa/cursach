@@ -14,10 +14,16 @@ export function createReportModal(user_group) {
     );
     document.querySelector("#repDateInput").value = setMonth();
 
+    document.querySelectorAll(".close-modal").forEach(close => {
+        close.addEventListener('click', () => {
+        const alert = document.querySelector(".alert");
+        if (alert)
+            alert.remove();
+    })});
+
     document.getElementById("staticBackdrop").addEventListener("hidden.bs.modal", function () {
         const reportTable = document.getElementById("reportTable");
         reportTable.innerHTML = "";
-        document.querySelectorAll(".alert").forEach(alert => alert.remove());
 
         document.querySelector("#repDateInput").value = setMonth();
     });

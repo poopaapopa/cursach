@@ -1,4 +1,4 @@
-import {createAlert} from "./repalert_creation.js";
+import {alertCreation} from "../alert_creation.js";
 
 export async function driverReportCreation() {
     const createReportForm = document.getElementById("createReportForm");
@@ -17,8 +17,14 @@ export async function driverReportCreation() {
                 const reportTable = document.getElementById("reportTable");
                 document.querySelectorAll("#alert").forEach(alert => alert.remove());
                 reportTable.innerHTML = "";
+                const months = [
+                        '', 'январь', 'февраль', 'март', 'апрель', 'май', 'июнь',
+                        'июль', 'август', 'сентябрь', 'октябрь', 'ноябрь', 'декабрь'
+                    ];
                 if (data.month) {
-                    createAlert(reportTable, data.month, data.year);
+                    const modalBody = document.querySelector("#staticBackdrop .modal-body");
+                    const alert = `Отчёт за ${months[data.month]} ${data.year} года уже существует!`
+                    alertCreation(alert, modalBody);
                 }
                 const tableHead = document.createElement("thead");
                 tableHead.innerHTML = `
@@ -39,7 +45,7 @@ export async function driverReportCreation() {
                     repCol.innerHTML = `
                         <td>${rep.FIO}</td>
                         <td>${rep.hour_count}</td>
-                        <td>${rep.rep_month}</td>
+                        <td>${months[rep.rep_month]}</td>
                         <td>${rep.rep_year}</td>`;
 
                     tableBody.appendChild(repCol);

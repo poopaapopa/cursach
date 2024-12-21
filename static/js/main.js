@@ -64,11 +64,5 @@ if (user_group === "routes_manager") {
         setupSaveRouteForm();
     });
 
-    document.getElementById("closeModal").addEventListener('click', () => {
-        const alert = document.querySelector("#alert");
-        if (alert)
-            alert.remove();
-    });
-
     createReportModal(user_group);
 }
