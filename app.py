@@ -3,7 +3,7 @@ from auth.routes import auth_blueprint
 from auth.acess import login_required
 from search.main_page import park_blueprint
 from manager.route_manager import route_manager_blueprint
-from manager.personal_manager import pers_manager
+from pers_manager.personal_manager import pers_manager
 
 app = Flask(__name__)
 app.register_blueprint(auth_blueprint, url_prefix=('/auth'))
