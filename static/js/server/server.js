@@ -64,7 +64,7 @@ export async function setupSaveRouteForm() {
     };
 }
 
-function addDeleteButtons() {
+export function addDeleteButtons() {
     const deleteButtons = document.querySelectorAll(".delete-btn");
     deleteButtons.forEach(button => {
         button.addEventListener("click", async (event) => {
@@ -91,16 +91,16 @@ function addDeleteButtons() {
     });
 }
 
-function addRedactButtons(routes) {
+export function addRedactButtons(routes) {
     const redactButtons = document.querySelectorAll(".edit-btn");
     redactButtons.forEach(button => {
         button.addEventListener("click", async (event) => {
             const buttonElement = event.currentTarget;
             const scheduleId = buttonElement.getAttribute("data-id");
+            console.log(routes);
+            console.log(scheduleId);
             const route = routes.find(route => route.sh_id == scheduleId);
 
-            console.log(route);
-            console.log(document.getElementById("sh_id"));
             document.getElementById("saveRouteModalLabel").innerText = "Редактировать маршрут";
             document.getElementById("route_id").value = route.route_id;
             document.getElementById("time_out").value = route.time_out;

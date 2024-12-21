@@ -173,11 +173,14 @@
         </div>
       </div>
     </div>
+    <script>
+        const today_routes = {{ routes | tojson | safe }};
+        console.log(today_routes);
+    </script>
     {% endif %}
     <script>
         const user_group = "{{ user_group }}";
         const login = "{{ login }}";
-        const today_routes = {{ routes }};
     </script>
     <script src="/static/js/main.js" type="module"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>

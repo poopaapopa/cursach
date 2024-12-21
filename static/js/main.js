@@ -1,5 +1,5 @@
 import { makeCalendar, updateDayOfWeek, setTodayDate } from './calendar.js';
-import { submitRoutesForm, setupSaveRouteForm } from "./server/server.js";
+import { submitRoutesForm, setupSaveRouteForm, addRedactButtons, addDeleteButtons } from "./server/server.js";
 import { createReportModal } from "./rep_creation/report_modal.js";
 
 const dateInput = document.getElementById('dateInput');
@@ -57,12 +57,17 @@ document.querySelector('#inputButton').addEventListener('click', () => {
 });
 
 if (user_group === "routes_manager") {
+    addDeleteButtons();
+    addRedactButtons(today_routes);
+
     document.querySelector('#saveRouteButton').addEventListener('click', () => {
         setupSaveRouteForm();
     });
 
     document.getElementById("closeModal").addEventListener('click', () => {
-        document.querySelector("#alert").remove();
+        const alert = document.querySelector("#alert");
+        if (alert)
+            alert.remove();
     });
 
     createReportModal(user_group);

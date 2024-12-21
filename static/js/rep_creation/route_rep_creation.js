@@ -15,8 +15,9 @@ export async function routeReportCreation(event) {
                 const reportTable = document.getElementById("reportTable");
                 document.querySelectorAll(".alert").forEach(alert => alert.remove());
                 reportTable.innerHTML = "";
+                console.log(data.month);
                 if (data.month) {
-                    createAlert();
+                    createAlert(reportTable, data.month, data.year);
                 }
                 const tableHead = document.createElement("thead");
                 tableHead.innerHTML = `
@@ -24,8 +25,8 @@ export async function routeReportCreation(event) {
                         <th scope="col">Маршрут</th>
                         <th scope="col">Часов поездок</th>
                         <th scope="col">Кол-во выездов</th>
-                        <th scope="col">Год</th>
                         <th scope="col">Месяц</th>
+                        <th scope="col">Год</th>
                     </tr>`;
                 reportTable.appendChild(tableHead);
 

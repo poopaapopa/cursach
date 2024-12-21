@@ -1,4 +1,4 @@
-export function createAlert() {
+export function createAlert(reportTable, month, year) {
     const months = [
         '', 'январю', 'февралю', 'марту', 'апрелю', 'маю', 'июню',
         'июлю', 'августу', 'сентябрю', 'октябрю', 'ноябрю', 'декабрю'
@@ -7,7 +7,7 @@ export function createAlert() {
         'beforebegin',
         `
              <div class="row justify-content-center my-2 alert">
-                Отчёт по ${months[data.month]} ${data.year} года уже существует:
+                Отчёт по ${months[month]} ${year} года уже существует:
              </div>
     `);
 }
