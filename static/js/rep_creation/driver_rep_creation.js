@@ -1,11 +1,9 @@
 import {alertCreation} from "../alert_creation.js";
 
-export async function driverReportCreation() {
-    const createReportForm = document.getElementById("createReportForm");
-    createReportForm.onsubmit = async function(event) {
+export async function driverReportCreation(event) {
         event.preventDefault();
 
-        const formData = new FormData(createReportForm);
+        const formData = new FormData(document.getElementById("createReportForm"));
         const response = await fetch(`/personal_manager/`, {
             method: "POST",
             body: formData
@@ -15,15 +13,18 @@ export async function driverReportCreation() {
             const data = await response.json();
             if (data.report.length) {
                 const reportTable = document.getElementById("reportTable");
-                document.querySelectorAll("#alert").forEach(alert => alert.remove());
+                const alert = document.querySelector(".alert");
+                if (alert)
+                    alert.remove();
                 reportTable.innerHTML = "";
                 const months = [
                         '', 'январь', 'февраль', 'март', 'апрель', 'май', 'июнь',
                         'июль', 'август', 'сентябрь', 'октябрь', 'ноябрь', 'декабрь'
                     ];
                 if (data.month) {
+                    console.log(months[data.month])
                     const modalBody = document.querySelector("#staticBackdrop .modal-body");
-                    const alert = `Отчёт за ${months[data.month]} ${data.year} года уже существует!`
+                    const alert = `Отчёт за ${months[Number(data.month)]} ${data.year} года уже существует!`
                     alertCreation(alert, modalBody);
                 }
                 const tableHead = document.createElement("thead");
@@ -53,5 +54,4 @@ export async function driverReportCreation() {
                 reportTable.appendChild(tableBody);
             }
         }
-    };
 }

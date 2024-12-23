@@ -6,6 +6,7 @@ from DataBase.check_and_update import check_and_update
 from DataBase.select import select_from_db
 from sql_provider import SQLProvider
 from auth.routes import db_config
+from DataBase.report_creation import rep_creation
 
 sql_provider = SQLProvider(os.path.join(os.path.dirname(__file__), 'sql'))
 route_manager_blueprint = Blueprint('route_manager_bp', __name__, template_folder='templates')
@@ -64,11 +65,9 @@ def trolleybuspark_get():
     else:
         input_data = request.form['date']
         [month, year] = input_data.split('.', 2)
-        report_check = select_from_db(db_config, sql_provider.get('check_route_report.sql', year=year[0:4], month=month))
-        if not report_check:
-            report_check = select_from_db(db_config,
-                                          sql_provider.get('check_route_report.sql', year=year[0:4], month=month),
-                                          sql_provider.get('call_route_report.sql', month=month, year=year))
+        report_check = rep_creation(db_config, sql_provider.get('call_route_report.sql', year=year[0:4], month=month),
+                                          sql_provider.get('check_route_report.sql', month=month, year=year))
+        if report_check.pop(0) == 1:
             return jsonify({'report': report_check})
         else:
             return jsonify({'report': report_check, 'month': month, 'year': year})

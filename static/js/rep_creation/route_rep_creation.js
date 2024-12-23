@@ -13,7 +13,9 @@ export async function routeReportCreation(event) {
             const data = await response.json();
             if (data.report.length) {
                 const reportTable = document.getElementById("reportTable");
-                document.querySelectorAll(".alert").forEach(alert => alert.remove());
+                const alert = document.querySelector(".alert");
+                if (alert)
+                    alert.remove();
                 reportTable.innerHTML = "";
                 const months = [
                         '', 'январь', 'февраль', 'март', 'апрель', 'май', 'июнь',
