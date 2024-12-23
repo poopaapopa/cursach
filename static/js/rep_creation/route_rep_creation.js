@@ -1,8 +1,15 @@
 import {alertCreation} from "../alert_creation.js";
+import {updateMonth} from "./month_function.js";
 
 export async function routeReportCreation(event) {
         event.preventDefault();
 
+        const modalBody = document.querySelector("#staticBackdrop .modal-body");
+        if (!updateMonth()) {
+            const alert = "Данные введены неверно!";
+            alertCreation(alert, modalBody);
+            return;
+        }
         const formData = new FormData(document.getElementById("createReportForm"));
         const response = await fetch(`/route_manager/`, {
             method: "PUT",
@@ -22,7 +29,6 @@ export async function routeReportCreation(event) {
                         'июль', 'август', 'сентябрь', 'октябрь', 'ноябрь', 'декабрь'
                     ];
                 if (data.month) {
-                    const modalBody = document.querySelector("#staticBackdrop .modal-body");
                     const alert = `Отчёт за ${months[data.month]} ${data.year} года уже существует!`
                     alertCreation(alert, modalBody);
                 }

@@ -1,15 +1,22 @@
-export function updateMonth(monthsToAdd) {
+export function updateMonth(monthsToAdd = 0) {
     const dateInput = document.querySelector('#repDateInput');
-    let [month, year] = dateInput.value.split('.', 2);
-    year = Number(year.substring(0, 4));
+    try {
+        let [month, year] = dateInput.value.split('.', 2);
+        year = Number(year.substring(0, 4));
+        month = Number(month);
 
-    if (month.length == 2 && year >= 1000) {
-        let date = new Date(year, month - 1, 1);
-        date.setMonth(date.getMonth() + monthsToAdd);
-        month = String(date.getMonth() + 1).padStart(2, '0');
-        year = date.getFullYear();
+        if (month.length == 2 && year >= 1000) {
+            let date = new Date(year, month - 1, 1);
+            date.setMonth(date.getMonth() + monthsToAdd);
+            month = String(date.getMonth() + 1).padStart(2, '0');
+            year = date.getFullYear();
 
-        dateInput.value = `${month}.${year}`;
+            dateInput.value = `${month}.${year}`;
+            return 1;
+        } else return 0;
+    }
+    catch {
+        return 0;
     }
 }
 

@@ -58,7 +58,7 @@ export async function setupSaveRouteForm() {
                 addRedactButtons(data.routes);
                 saveRouteForm.reset();
                 document.getElementById("sh_id").value = "";
-                document.getElementById("closeModal").click();
+                document.getElementById("closeAddModal").click();
             }
             else {
                 const modalBody = document.querySelector("#saveRouteModal .modal-body");

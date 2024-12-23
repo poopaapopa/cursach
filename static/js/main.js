@@ -8,6 +8,9 @@ let monthNow;
 
 dateInput.addEventListener('click', () => {
     tooltip.style.display = 'block';
+    const rect = dateInput.getBoundingClientRect();
+    tooltip.style.left = `${rect.left + window.scrollX + rect.width / 2}px`;
+    tooltip.style.transform = 'translateX(-50%)';
     monthNow = makeCalendar(dateInput, tooltip, monthNow, 1);
 });
 document.addEventListener('click', (event) => {

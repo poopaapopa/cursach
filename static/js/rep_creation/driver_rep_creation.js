@@ -1,8 +1,15 @@
 import {alertCreation} from "../alert_creation.js";
+import {updateMonth} from "./month_function.js";
 
 export async function driverReportCreation(event) {
         event.preventDefault();
 
+        const modalBody = document.querySelector("#staticBackdrop .modal-body");
+        if (!updateMonth()) {
+            const alert = "Данные введены неверно!";
+            alertCreation(alert, modalBody);
+            return;
+        }
         const formData = new FormData(document.getElementById("createReportForm"));
         const response = await fetch(`/personal_manager/`, {
             method: "POST",
