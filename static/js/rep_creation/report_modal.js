@@ -7,7 +7,7 @@ export function createReportModal(user_group) {
     loginPlace.insertAdjacentHTML(
         'beforebegin',
         `
-        <button type="button" class="btn btn-outline-primary my-auto" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+        <button type="button" class="btn btn-primary my-auto" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
             Создать отчёт
         </button>
         `

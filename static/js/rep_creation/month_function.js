@@ -5,7 +5,7 @@ export function updateMonth(monthsToAdd = 0) {
         year = Number(year.substring(0, 4));
         month = Number(month);
 
-        if (month.length == 2 && year >= 1000) {
+        if (month > 0 && month < 13 && year >= 1000) {
             let date = new Date(year, month - 1, 1);
             date.setMonth(date.getMonth() + monthsToAdd);
             month = String(date.getMonth() + 1).padStart(2, '0');

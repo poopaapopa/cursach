@@ -6,6 +6,15 @@
     border-radius: 0 10px 10px 0;
 }
 
+.day_btn {
+    background-color: #C28FFF !important;
+    color: white !important;
+}
+
+.day_btn:hover {
+    background-color: #b67ef8 !important;
+}
+
 #dateInput {
     position: relative;
 }
@@ -35,12 +44,16 @@
 	margin-left: 0;
 }
 
-.calendar-button {
-    color: cornflowerblue;
+.calendar-button, .edit-btn {
+    color: #3E99E3;
     cursor: pointer;
 }
 
-.calendar-button:hover, .weekend {
+.calendar-button:hover, .edit-btn:hover {
+    color: #0F80CB;
+}
+
+.weekend {
     color: indianred !important;
 }
 
@@ -56,10 +69,35 @@
   height: 30px !important;
 }
 
+.calendar-table td, .calendar-table th {
+  font-weight: normal !important;
+}
+
 .table td, .table th {
   padding: 0.3rem !important;
   border: none;
-  font-weight: normal !important;
+}
+
+.routes-row {
+    background-color: #E2E9F4;
+    border-radius: 8px;
+    padding-left: 6rem;
+    margin-bottom: 3px;
+}
+
+.routes-head {
+    background-color: #B8D3EF;
+    border-radius: 8px;
+    padding-left: 6rem;
+    margin-bottom: 12px;
+    height: 60px;
+}
+
+.routes-table {
+    width: 90% !important;
+    margin: auto !important;
+    margin-top: 1rem !important;
+    border-radius: 8px !important;
 }
 
 .table {
@@ -67,12 +105,12 @@
 }
 
 .btn-outline-primary:hover, .today, .btn-primary {
-    border-color: cornflowerblue !important;
-    background-color: cornflowerblue !important;
+    border-color: #3E99E3 !important;
+    background-color: #3E99E3 !important;
 }
 
 .btn-primary:hover {
-    background-color: #4683E0 !important;
+    background-color: #0F80CB !important;
 }
 
 .day {
@@ -81,8 +119,8 @@
 }
 
 .day-hover {
-    outline: 2px solid indianred;
-    color: indianred !important;
+    outline: 2px solid #C28FFF;
+    color: #C28FFF !important;
     border-radius: 8px;
     cursor: pointer;
 }
@@ -110,7 +148,6 @@
     cursor: pointer;
     padding: 0;
     margin: 0 5px;
-    color: #adb5bd;
     font-size: 1.5rem;
 }
 
@@ -118,28 +155,32 @@
     outline: none;
 }
 
-.icon-button:hover {
-    color: #6c757d;
+.delete-btn {
+    color: indianred;
+}
+
+.delete-btn:hover {
+    color: #D4121E;
 }
 
 .add-route-btn {
-    background: none !important;
-    border: 2px dashed #6c757d !important;
-    color: #6c757d !important;
+    background: none;
+    border: 2px dashed #B8D3EF !important;
+    color: #B8D3EF !important;
     font-size: 1.5rem !important;
-    font-weight: bold !important;
-    padding: 10px 0 !important;
-    text-align: center !important;
-    cursor: pointer !important;
-    transition: background-color 0.3s ease, color 0.3s ease !important;
-    width: 90%;
-    margin-left: 5%;
+    font-weight: bold  !important;
+    padding: 10px 20px !important;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    width: 100%;
+    border-radius: 8px;
 }
 
 .add-route-btn:hover {
     background-color: #f8f9fa !important;
-    color: #343a40 !important;
-    border-color: #343a40 !important;
+    color: #3E99E3 !important;
+    border-color: #3E99E3 !important;
 }
 
 .alert {

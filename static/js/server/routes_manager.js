@@ -4,28 +4,39 @@ export function updateManagerRoutesTable(routes, year, month, day) {
 
     if (routes.length) {
         routes.forEach(route => {
-            const routeCard = document.createElement("tr");
-            routeCard.innerHTML = `
-                <td>${route.route_id}</td>
-                <td>${route.time_out}</td>
-                <td>${route.time_in}</td>
-                <td>${route.route_name}</td>
-                <td>${route.driver_id}</td>
-                <td>${route.trolleybus_id}</td>
+            const routeRow = document.createElement("tr");
+            routeRow.innerHTML = `
                 <td>
-                    <button class="icon-button edit-btn" data-id="${route.sh_id}" title="Редактировать">
-                        <i class="bi bi-pen"></i>
-                    </button>
-                    <button class="icon-button delete-btn" data-id="${route.sh_id}" title="Удалить">
-                        <i class="bi bi-trash"></i>
-                    </button>
+                    <div class="d-flex justify-content-between align-items-center py-3 routes-row">
+                        <span style="width: 8%;">${route.route_id}</span>
+                        <span style="width: 13%; color: #3E99E3; font-weight: bold;">${route.time_out}</span>
+                        <span style="width: 13%; color: #3E99E3; font-weight: bold;">${route.time_in}</span>
+                        <span style="width: 22%;">${route.route_name}</span>
+                        <span style="width: 20%;">${route.driver_name}</span>
+                        <span style="width: 10%;">${route.trolleybus_id}</span>
+                        <div style="width: 15%;">
+                            <button class="icon-button edit-btn" data-id="${route.sh_id}" title="Редактировать">
+                                <i class="bi bi-pen"></i>
+                            </button>
+                            <button class="icon-button delete-btn" data-id="${route.sh_id}" title="Удалить">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </div>
+                    </div>
                 </td>
             `;
-            tableBody.appendChild(routeCard);
+            tableBody.appendChild(routeRow);
         });
     }
-    const addRouteButton = document.getElementById("addRouteButton");
-    addRouteButton.setAttribute('data-route-year', year);
-    addRouteButton.setAttribute('data-route-month', month);
-    addRouteButton.setAttribute('data-route-day', day);
+
+    const addRouteRow = document.createElement("tr");
+    addRouteRow.innerHTML = `
+        <td class="p-3">
+            <button id="addRouteButton" class="btn add-route-btn" data-bs-toggle="modal" data-bs-target="#saveRouteModal"
+                title="Добавить маршрут" data-route-year="${year}" data-route-month="${month}" data-route-day="${day}">
+                +
+            </button>
+        </td>
+    `;
+    tableBody.appendChild(addRouteRow);
 }

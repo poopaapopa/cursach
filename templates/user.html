@@ -9,14 +9,14 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
 <body>
-    <nav class="navbar bg-body-tertiary">
+    <nav class="navbar" style="background-color: #E2E9F4; !important;">
       <div class="container-fluid">
         <a class="navbar-brand" href="/trolleybuspark/">ТроллейбусныйПарк</a>
         <form id="routesForm" class="d-flex" role="search">
-            <button class="btn btn-outline-primary day_btn" id="prevDay">ᐊ</button>
+            <button class="btn day_btn" id="prevDay">ᐊ</button>
             <input class="form-control rounded-0" type="search" id="dateInput" name="date" placeholder="Дата" autocomplete="off" style="width: 180px; height: 40px; font-size:20px">
-            <button class="btn btn-outline-primary me-3 day_btn" id="nextDay">ᐅ</button>
-            <button class="btn btn-outline-primary" type="submit" id="inputButton">Показать расписание</button>
+            <button class="btn me-3 day_btn" id="nextDay">ᐅ</button>
+            <button class="btn btn-primary" type="submit" id="inputButton">Показать расписание</button>
         </form>
         <div class="d-flex justify-content-between gap-3">
           <div class="d-flex flex-column justify-content-between" id="login">
@@ -42,7 +42,7 @@
                 </a>
             </div>
             <div class="card-body">
-                <table class="table table-bordered text-center">
+                <table class="table table-bordered text-center calendar-table">
                   <thead>
                     <tr>
                         <th><small>ПН</small></th>
@@ -59,48 +59,62 @@
             </div>
         </div>
     </div>
-    <table class="table caption-top mt-2" id="routesTable" style="width: 90%; margin-left: 5%;">
+    <table class="table table-borderless routes-table" id="routesTable">
         <thead>
             <tr>
-                <th scope="col">Номер Маршрута</th>
-                <th scope="col">Отпр.</th>
-                <th scope="col">Приб.</th>
-                <th scope="col">Маршрут</th>
-                {% if user_group == "routes_manager" %}
-                <th scope="col">Номер водителя</th>
-                <th scope="col">Номер троллейбуса</th>
-                <th scope="col">Действия</th>
-                {% endif %}
+                <td colspan="{% if user_group == 'routes_manager' %}7{% else %}4{% endif %}" style="font-weight: bold;">
+                    <div class="d-flex justify-content-between align-items-center py-3 routes-head">
+                        <span style="width: 8%;">№</span>
+                        <span style="width: 13%;">Отправление</span>
+                        <span style="width: 13%;">Прибытие</span>
+                        <span style="width: 22%;">Маршрут</span>
+                        {% if user_group == "routes_manager" %}
+                        <span style="width: 20%;">Водитель</span>
+                        <span style="width: 10%;">Троллейбус</span>
+                        <span style="width: 15%;">Действия</span>
+                        {% endif %}
+                    </div>
+                </td>
             </tr>
         </thead>
         <tbody>
-        {% for route in routes %}
+            {% for route in routes %}
             <tr>
-                <td>{{ route.route_id }}</td>
-                <td>{{ route.time_out }}</td>
-                <td>{{ route.time_in }}</td>
-                <td>{{ route.route_name }}</td>
-                {% if user_group == "routes_manager" %}
-                <td>{{ route.driver_id }}</td>
-                <td>{{ route.trolleybus_id }}</td>
-                <td>
-                    <button class="icon-button edit-btn" data-id="{{ route.sh_id }}" title="Редактировать">
-                        <i class="bi bi-pen"></i>
-                    </button>
-                    <button class="icon-button delete-btn" data-id="{{ route.sh_id }}" title="Удалить">
-                        <i class="bi bi-trash"></i>
+                <td colspan="{% if user_group == 'routes_manager' %}7{% else %}4{% endif %}">
+                    <div class="bg-light d-flex justify-content-between align-items-center py-3 routes-row">
+                        <span style="width: 8%;">{{ route.route_id }}</span>
+                        <span style="width: 13%; color: #3E99E3; font-weight: bold;">{{ route.time_out }}</span>
+                        <span style="width: 13%; color: #3E99E3; font-weight: bold;">{{ route.time_in }}</span>
+                        <span style="width: 22%;">{{ route.route_name }}</span>
+                        {% if user_group == "routes_manager" %}
+                        <span style="width: 20%;">{{ route.driver_id }}</span>
+                        <span style="width: 10%;">{{ route.trolleybus_id }}</span>
+                        <div style="width: 15%;">
+                            <button class="icon-button edit-btn" data-id="{{ route.sh_id }}" title="Редактировать">
+                                <i class="bi bi-pen"></i>
+                            </button>
+                            <button class="icon-button delete-btn" data-id="{{ route.sh_id }}" title="Удалить">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </div>
+                        {% endif %}
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+            {% if user_group == "routes_manager" %}
+            <tr>
+                <td class="p-3">
+                    <button id="addRouteButton" class="btn add-route-btn" data-bs-toggle="modal" data-bs-target="#saveRouteModal"
+                            title="Добавить маршрут" data-route-year="{{ year }}" data-route-month="{{ month }}" data-route-day="{{ day }}">
+                        +
                     </button>
                 </td>
-                {% endif %}
             </tr>
-        {% endfor %}
+            {% endif %}
         </tbody>
     </table>
     {% if user_group == "routes_manager" %}
-    <button id="addRouteButton" class="btn add-route-btn" data-bs-toggle="modal" data-bs-target="#saveRouteModal"
-            title="Добавить маршрут" data-route-year="{{ year }}" data-route-month="{{ month }}" data-route-day="{{ day }}">
-        +
-    </button>
     <div class="modal fade" id="saveRouteModal" tabindex="-1" aria-labelledby="addRouteModalLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -160,10 +174,10 @@
             <button type="button" class="btn-close close-modal" data-bs-dismiss="modal" aria-label="Закрыть"></button>
           </div>
           <div class="modal-body" id="modal_body">
-            <form id="createReportForm" class="d-flex w-50 mx-auto" role="search">
-                <button class="btn btn-outline-primary day_btn" type="submit" id="repLeftButton">ᐊ</button>
-                <input class="form-control rounded-0" type="search" id="repDateInput" name="date" placeholder="Дата" autocomplete="off" style="width: 180px; height: 40px; font-size:20px">
-                <button class="btn btn-outline-primary day_btn" type="submit" id="repRightButton">ᐅ</button>
+            <form id="createReportForm" class="d-flex w-50 mx-auto my-1" role="search">
+                <button class="btn day_btn" type="submit" id="repLeftButton">ᐊ</button>
+                <input class="form-control rounded-0" type="search" id="repDateInput" name="date" placeholder="ММ.ГГГГ" autocomplete="off" style="width: 180px; height: 40px; font-size:20px">
+                <button class="btn day_btn" type="submit" id="repRightButton">ᐅ</button>
             </form>
             <table class="table table-striped table-bordered table-hover caption-top" id="reportTable"></table>
           </div>
@@ -175,7 +189,6 @@
     </div>
     <script>
         const today_routes = {{ routes | tojson | safe }};
-        console.log(today_routes);
     </script>
     {% endif %}
     <script>
