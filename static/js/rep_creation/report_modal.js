@@ -17,6 +17,9 @@ export function createReportModal(user_group) {
     document.querySelectorAll(".close-modal").forEach(close => {
         close.addEventListener('click', () => {
         const alert = document.querySelector(".alert");
+        const saveRouteForm = document.getElementById("saveRouteForm");
+        if (saveRouteForm)
+            saveRouteForm.reset();
         if (alert)
             alert.remove();
     })});

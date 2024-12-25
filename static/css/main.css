@@ -82,14 +82,20 @@
     background-color: #E2E9F4;
     border-radius: 8px;
     padding-left: 6rem;
-    margin-bottom: 3px;
+    margin-bottom: 2px;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.routes-row:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .routes-head {
     background-color: #B8D3EF;
     border-radius: 8px;
     padding-left: 6rem;
-    margin-bottom: 12px;
+    margin-bottom: 10px;
     height: 60px;
 }
 
@@ -165,22 +171,19 @@
 
 .add-route-btn {
     background: none;
-    border: 2px dashed #B8D3EF !important;
-    color: #B8D3EF !important;
+    border: 2px dashed #3E99E3 !important;
+    color: #3E99E3 !important;
     font-size: 1.5rem !important;
     font-weight: bold  !important;
     padding: 10px 20px !important;
     text-align: center;
     cursor: pointer;
-    transition: background-color 0.3s ease, color 0.3s ease;
     width: 100%;
     border-radius: 8px;
 }
 
 .add-route-btn:hover {
-    background-color: #f8f9fa !important;
-    color: #3E99E3 !important;
-    border-color: #3E99E3 !important;
+    background-color: #E2E9F4 !important;
 }
 
 .alert {

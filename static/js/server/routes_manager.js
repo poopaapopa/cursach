@@ -13,7 +13,7 @@ export function updateManagerRoutesTable(routes, year, month, day) {
                         <span style="width: 13%; color: #3E99E3; font-weight: bold;">${route.time_in}</span>
                         <span style="width: 22%;">${route.route_name}</span>
                         <span style="width: 20%;">${route.driver_name}</span>
-                        <span style="width: 10%;">${route.trolleybus_id}</span>
+                        <span style="width: 10%;">${route.serie}</span>
                         <div style="width: 15%;">
                             <button class="icon-button edit-btn" data-id="${route.sh_id}" title="Редактировать">
                                 <i class="bi bi-pen"></i>

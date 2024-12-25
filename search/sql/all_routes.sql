@@ -1,0 +1,1 @@
+SELECT route_name, route FROM TrolleybusPark.routes;

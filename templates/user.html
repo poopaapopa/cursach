@@ -59,6 +59,9 @@
             </div>
         </div>
     </div>
+    <div class="table-header" style="padding-left: 6rem; margin-top: 2rem;" id="tableHeader">
+        <h2>Расписание троллейбусов на сегодня</h2>
+    </div>
     <table class="table table-borderless routes-table" id="routesTable">
         <thead>
             <tr>
@@ -81,14 +84,14 @@
             {% for route in routes %}
             <tr>
                 <td colspan="{% if user_group == 'routes_manager' %}7{% else %}4{% endif %}">
-                    <div class="bg-light d-flex justify-content-between align-items-center py-3 routes-row">
+                    <div class="d-flex justify-content-between align-items-center py-3 routes-row">
                         <span style="width: 8%;">{{ route.route_id }}</span>
                         <span style="width: 13%; color: #3E99E3; font-weight: bold;">{{ route.time_out }}</span>
                         <span style="width: 13%; color: #3E99E3; font-weight: bold;">{{ route.time_in }}</span>
                         <span style="width: 22%;">{{ route.route_name }}</span>
+                        <span style="width: 20%;">{{ route.driver_name }}</span>
+                        <span style="width: 10%;">{{ route.serie }}</span>
                         {% if user_group == "routes_manager" %}
-                        <span style="width: 20%;">{{ route.driver_id }}</span>
-                        <span style="width: 10%;">{{ route.trolleybus_id }}</span>
                         <div style="width: 15%;">
                             <button class="icon-button edit-btn" data-id="{{ route.sh_id }}" title="Редактировать">
                                 <i class="bi bi-pen"></i>
@@ -125,11 +128,11 @@
           <div class="modal-body">
             <form id="saveRouteForm">
               <div class="mb-3">
-                <label for="route_id" class="form-label">Номер маршрута</label>
+                <label for="route_id" class="form-label">Маршрут</label>
                 <select class="form-select" id="route_id" name="route_id" required>
-                  <option value="" disabled selected>Выберите номер маршрута</option>
-                  {% for route_id in routes_id %}
-                  <option value="{{ route_id['route'] }}">{{ route_id['route'] }}</option>
+                  <option value="" disabled selected>Выберите маршрут</option>
+                  {% for route in all_routes %}
+                  <option value="{{ route['route'] }}">{{ route['route_name'] }}</option>
                   {% endfor %}
                 </select>
               </div>
@@ -142,11 +145,11 @@
                 <input type="time" class="form-control" id="time_in" name="time_in" required>
               </div>
               <div class="mb-3">
-                <label for="driver_id" class="form-label">Персональный номер водителя</label>
+                <label for="driver_id" class="form-label">Водитель</label>
                 <select class="form-select" id="driver_id" name="driver_id" required>
                   <option value="" disabled selected>Выберите водителя</option>
                   {% for driver in drivers %}
-                  <option value="{{ driver['personnel_number'] }}">{{ driver['personnel_number'] }}</option>
+                  <option value="{{ driver['personnel_number'] }}">{{ driver['FIO'] }}</option>
                   {% endfor %}
                 </select>
               </div>
@@ -174,12 +177,12 @@
             <button type="button" class="btn-close close-modal" data-bs-dismiss="modal" aria-label="Закрыть"></button>
           </div>
           <div class="modal-body" id="modal_body">
-            <form id="createReportForm" class="d-flex w-50 mx-auto my-1" role="search">
+            <form id="createReportForm" class="d-flex w-50 mx-auto" role="search">
                 <button class="btn day_btn" type="submit" id="repLeftButton">ᐊ</button>
                 <input class="form-control rounded-0" type="search" id="repDateInput" name="date" placeholder="ММ.ГГГГ" autocomplete="off" style="width: 180px; height: 40px; font-size:20px">
                 <button class="btn day_btn" type="submit" id="repRightButton">ᐅ</button>
             </form>
-            <table class="table table-striped table-bordered table-hover caption-top" id="reportTable"></table>
+            <table class="table table-striped table-bordered table-hover caption-top mt-2" id="reportTable"></table>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-primary w-100" id="createReportButton">Создать</button>

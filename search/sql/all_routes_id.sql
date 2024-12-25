@@ -1,1 +1,0 @@
-SELECT route FROM TrolleybusPark.routes;

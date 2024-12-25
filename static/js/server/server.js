@@ -15,6 +15,12 @@ export async function submitRoutesForm(user_group) {
 
         if (response.ok) {
             const data = await response.json();
+            document.getElementById("tableHeader").innerHTML = `
+                <div style="display: flex; align-items: baseline; gap: 8px;">
+                    <h2 style="margin: 0;">Расписание троллейбусов на</h2>
+                    <h3 style="margin: 0;">${data.day}.${data.month}.${data.year}</h3>
+                </div>
+            `
             if (user_group === "user")
                 updateUserRoutesTable(data.routes);
             else {
