@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, session, redirect
+from flask import Blueprint, render_template, request, session, redirect, jsonify
 import os
 import json
 from sql_provider import SQLProvider
@@ -19,11 +19,9 @@ def start_auth_handler():
         password = request.form['password']
         sql = select_from_db(db_config, sql_provider.get('auth.sql', login=login, password=password))
         if not sql:
-            session['logged_try'] = True
-            return redirect('/auth')
+            return {'error': 'Invalid login or password'}, 401
         sql = sql[0]
         session['login'] = login
         session['user_id'] = sql['user_id']
-        session['logged_try'] = False
         session['user_group'] = sql['user_group']
-        return redirect("/")
+        return {'ok': True}
