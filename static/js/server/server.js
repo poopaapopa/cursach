@@ -15,12 +15,29 @@ export async function submitRoutesForm(user_group) {
 
         if (response.ok) {
             const data = await response.json();
-            document.getElementById("tableHeader").innerHTML = `
-                <div style="display: flex; align-items: baseline; gap: 8px;">
-                    <h2 style="margin: 0;">Расписание троллейбусов на</h2>
-                    <h3 style="margin: 0;">${data.day}.${data.month}.${data.year}</h3>
-                </div>
-            `
+            const today = new Date();
+            console.log(today);
+            const searchDay = new Date(data.year, data.month - 1, data.day);
+            const tomorrow = new Date(new Date().getTime() + 24 * 60 * 60 * 1000);
+            if (today === searchDay)
+                document.getElementById("tableHeader").innerHTML = `
+                    <div style="display: flex; align-items: baseline; gap: 8px;">
+                        <h2 style="margin: 0;">Расписание троллейбусов на сегодня</h2>
+                    </div>
+                `;
+            else if (tomorrow === searchDay)
+                document.getElementById("tableHeader").innerHTML = `
+                    <div style="display: flex; align-items: baseline; gap: 8px;">
+                        <h2 style="margin: 0;">Расписание троллейбусов на завтра</h2>
+                    </div>
+                `;
+            else
+                document.getElementById("tableHeader").innerHTML = `
+                    <div style="display: flex; align-items: baseline; gap: 8px;">
+                        <h2 style="margin: 0;">Расписание троллейбусов на</h2>
+                        <h3 style="margin: 0;">${data.day}.${data.month}.${data.year}</h3>
+                    </div>
+                `;
             if (user_group === "user")
                 updateUserRoutesTable(data.routes);
             else {

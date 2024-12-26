@@ -65,17 +65,19 @@
     <table class="table table-borderless routes-table" id="routesTable">
         <thead>
             <tr>
-                <td colspan="{% if user_group == 'routes_manager' %}7{% else %}4{% endif %}" style="font-weight: bold;">
+                <td colspan="{% if user_group == 'routes_manager' %}7{% else %}6{% endif %}" style="font-weight: bold;">
                     <div class="d-flex justify-content-between align-items-center py-3 routes-head">
                         <span style="width: 8%;">№</span>
                         <span style="width: 13%;">Отправление</span>
                         <span style="width: 13%;">Прибытие</span>
                         <span style="width: 22%;">Маршрут</span>
-                        {% if user_group == "routes_manager" %}
                         <span style="width: 20%;">Водитель</span>
                         <span style="width: 10%;">Троллейбус</span>
-                        <span style="width: 15%;">Действия</span>
+                        <span style="width: 15%;">
+                        {% if user_group == "routes_manager" %}
+                        Действия
                         {% endif %}
+                        </span>
                     </div>
                 </td>
             </tr>
@@ -83,7 +85,7 @@
         <tbody>
             {% for route in routes %}
             <tr>
-                <td colspan="{% if user_group == 'routes_manager' %}7{% else %}4{% endif %}">
+                <td colspan="{% if user_group == 'routes_manager' %}7{% else %}6{% endif %}">
                     <div class="d-flex justify-content-between align-items-center py-3 routes-row">
                         <span style="width: 8%;">{{ route.route_id }}</span>
                         <span style="width: 13%; color: #3E99E3; font-weight: bold;">{{ route.time_out }}</span>
@@ -91,16 +93,16 @@
                         <span style="width: 22%;">{{ route.route_name }}</span>
                         <span style="width: 20%;">{{ route.driver_name }}</span>
                         <span style="width: 10%;">{{ route.serie }}</span>
-                        {% if user_group == "routes_manager" %}
                         <div style="width: 15%;">
+                            {% if user_group == "routes_manager" %}
                             <button class="icon-button edit-btn" data-id="{{ route.sh_id }}" title="Редактировать">
                                 <i class="bi bi-pen"></i>
                             </button>
                             <button class="icon-button delete-btn" data-id="{{ route.sh_id }}" title="Удалить">
                                 <i class="bi bi-trash"></i>
                             </button>
+                            {% endif %}
                         </div>
-                        {% endif %}
                     </div>
                 </td>
             </tr>
