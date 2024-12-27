@@ -16,7 +16,6 @@ export async function submitRoutesForm(user_group) {
         if (response.ok) {
             const data = await response.json();
             const today = new Date();
-            console.log(today);
             const searchDay = new Date(data.year, data.month - 1, data.day);
             const tomorrow = new Date(new Date().getTime() + 24 * 60 * 60 * 1000);
             if (today === searchDay)

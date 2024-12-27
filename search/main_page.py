@@ -20,6 +20,8 @@ def trolleybuspark_get():
             input_data = request.form
             drivers = select_from_db(db_config, sql_provider.get('drivers.sql', FIO=input_data['FIO']))
             return render_template('personal.html', drivers=drivers, login=session['login'], user_group=session['user_group'])
+    elif session['user_group'] == 'admin':
+        return render_template('boss.html', login=session['login'])
     else:
         if request.method == "GET":
             day = datetime.now().day
@@ -42,8 +44,11 @@ def trolleybuspark_get():
             if input_data == '':
                 [day, month, year] = datetime.now().day, datetime.now().month, datetime.now().year
             else:
-                [day, month, year] = input_data.split('.', 3)
-                year = year[0:4]
+                try:
+                    [day, month, year] = input_data.split('.', 3)
+                    year = year[0:4]
+                except:
+                    [day, month, year] = datetime.now().day, datetime.now().month, datetime.now().year
             if session['user_group'] == 'routes_manager':
                 routes = select_from_db(db_config, sql_provider.get('manager_routes.sql',
                                                                     year=year, month=month, day=day))

@@ -1,6 +1,7 @@
 import {setMonth, updateMonth} from "./month_function.js";
 import {routeReportCreation} from "./route_rep_creation.js";
 import {driverReportCreation} from "./driver_rep_creation.js"
+import {alertCreation} from "../alert_creation.js";
 
 export function createReportModal(user_group) {
     const loginPlace = document.getElementById("login");
@@ -41,9 +42,45 @@ export function createReportModal(user_group) {
     });
 
     document.getElementById("createReportButton").addEventListener("click", (event) => {
-        if (user_group === "routes_manager")
-            routeReportCreation(event);
-        else
-            driverReportCreation(event);
+        reportCreation(event, user_group);
     });
+}
+
+async function reportCreation(event, user_group) {
+        event.preventDefault();
+
+        const modalBody = document.querySelector("#staticBackdrop .modal-body");
+        if (!updateMonth()) {
+            const alert = "Данные введены неверно!";
+            alertCreation(alert, modalBody);
+            return;
+        }
+        const formData = new FormData(document.getElementById("createReportForm"));
+        const response = await fetch(`/report_creation/`, {
+            method: "POST",
+            body: formData
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            if (data.report.length) {
+                const reportTable = document.getElementById("reportTable");
+                const alert = document.querySelector(".alert");
+                if (alert)
+                    alert.remove();
+                reportTable.innerHTML = "";
+                const months = [
+                        '', 'январь', 'февраль', 'март', 'апрель', 'май', 'июнь',
+                        'июль', 'август', 'сентябрь', 'октябрь', 'ноябрь', 'декабрь'
+                    ];
+                if (data.month) {
+                    const alert = `Отчёт за ${months[data.month]} ${data.year} года уже существует!`
+                    alertCreation(alert, modalBody);
+                }
+                if (user_group === "routes_manager")
+                    routeReportCreation(reportTable, data.report, months);
+                else
+                    driverReportCreation(reportTable, data.report, months);
+            }
+        }
 }

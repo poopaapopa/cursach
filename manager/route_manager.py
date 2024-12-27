@@ -11,7 +11,7 @@ from DataBase.report_creation import rep_creation
 sql_provider = SQLProvider(os.path.join(os.path.dirname(__file__), 'sql'))
 route_manager_blueprint = Blueprint('route_manager_bp', __name__, template_folder='templates')
 
-@route_manager_blueprint.route("/", methods = ['POST', 'DELETE', 'PUT'])
+@route_manager_blueprint.route("/", methods = ['POST', 'DELETE'])
 def trolleybuspark_get():
     if request.method == "POST":
         input_data = request.form
@@ -54,7 +54,7 @@ def trolleybuspark_get():
             return jsonify({'routes': routes, 'status': 'ok'})
         else:
             return jsonify({'routes': [], 'status': 'error'})
-    elif request.method == "DELETE":
+    else:
         sh_id = request.json['scheduleId']
         with DBConnection(db_config) as cursor:
             cursor.execute(sql_provider.get('route_delete.sql', sh_id=sh_id))
@@ -62,12 +62,3 @@ def trolleybuspark_get():
                 return jsonify({'status': 'error', 'message': 'Маршрут уже удалён или не найден'}), 404
             cursor.close()
         return jsonify({'status': 'ok'})
-    else:
-        input_data = request.form['date']
-        [month, year] = input_data.split('.', 2)
-        report_check = rep_creation(db_config, sql_provider.get('call_route_report.sql', year=year[0:4], month=month),
-                                          sql_provider.get('check_route_report.sql', month=month, year=year))
-        if report_check.pop(0) == 1:
-            return jsonify({'report': report_check})
-        else:
-            return jsonify({'report': report_check, 'month': month, 'year': year})
