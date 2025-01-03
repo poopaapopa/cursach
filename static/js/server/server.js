@@ -18,13 +18,13 @@ export async function submitRoutesForm(user_group) {
             const today = new Date();
             const searchDay = new Date(data.year, data.month - 1, data.day);
             const tomorrow = new Date(new Date().getTime() + 24 * 60 * 60 * 1000);
-            if (today === searchDay)
+            if (today.getDay() == searchDay.getDay() && today.getDay() == searchDay.getDay() && today.getFullYear() == searchDay.getFullYear())
                 document.getElementById("tableHeader").innerHTML = `
                     <div style="display: flex; align-items: baseline; gap: 8px;">
                         <h2 style="margin: 0;">Расписание троллейбусов на сегодня</h2>
                     </div>
                 `;
-            else if (tomorrow === searchDay)
+            else if (tomorrow.getDay() == searchDay.getDay() && tomorrow.getDay() == searchDay.getDay() && tomorrow.getFullYear() == searchDay.getFullYear())
                 document.getElementById("tableHeader").innerHTML = `
                     <div style="display: flex; align-items: baseline; gap: 8px;">
                         <h2 style="margin: 0;">Расписание троллейбусов на завтра</h2>

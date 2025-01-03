@@ -22,7 +22,11 @@ def get_main_page(request):
             return render_template('personal.html', drivers=drivers, login=session['login'],
                                    user_group=session['user_group'])
     elif session['user_group'] == 'admin':
-        return render_template('boss.html', login=session['login'])
+        if request.method == "GET":
+            year = 2024
+            drivers_reports = select_from_db(db_config, sql_provider.get('get_all_drivers_reports.sql', year=year))
+            routes_reports = select_from_db(db_config,sql_provider.get('get_all_routes_reports.sql', year=year))
+            return render_template('boss.html', login=session['login'], drivers_reports=drivers_reports, routes_reports=routes_reports)
     else:
         if request.method == "GET":
             day = datetime.now().day

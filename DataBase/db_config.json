@@ -26,5 +26,12 @@
     "user": "user",
     "password": "secure_user_password",
     "db": "trolleybuspark"
+  },
+  "admin": {
+    "host": "localhost",
+    "port": 3306,
+    "user": "admin",
+    "password": "secure_admin_password",
+    "db": "trolleybuspark"
   }
 }
